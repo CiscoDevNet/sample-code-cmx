@@ -1,0 +1,125 @@
+<!--Author: Shalin Luo-->
+<!--copyright: 2015 Cisco Systems, Inc.-->
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="CMX heat map sample code">
+    <meta name="author" content="Shalin Luo">
+    <title>CMX Heatmap</title>
+
+    <!--CSS: control the background image style-->
+    <style>
+        #container {
+            margin: 0 auto;
+            position: absolute;
+
+        }
+        #divInfo {
+            position: absolute;
+            width: 200px;
+            height: 25px;
+            left: 50%;
+            top: 30%;
+            margin-left: -25px;
+            margin-top: -10px;
+            font-size: 32px;
+        }
+        #map {
+            position:relative;
+
+            top: 0;
+            left: 0;
+        }
+
+        body{
+            overflow:scroll
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="container">
+    <!--GET CMX DATA: get img using the src attribute-->
+    <!--The first IP is the proxy server IP. Change the IP and port number if necessary. The second IP is the CMX MSE server IP and its API, Change the IP or API if needed. -->
+    <img id="map" src="http://127.0.0.1:5000/cmx/api/v1.0/map"/>
+
+</div>
+<div id="divInfo">loading map...</div>
+<script src="./lib/heatmap.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+
+    var heatmapInstance
+
+    // DRAW HEAT MAP: use heatmap.js
+    function drawHeatmap(clients) {
+        var len = clients.Locations.pageSize;
+
+        clients = clients.Locations.entries
+        console.log("total point number: " + len);
+        // set points in heat map
+        var points = [];
+        var max = 0;
+        var width = document.getElementById("container").clientWidth;
+        var height = document.getElementById("container").clientHeight;
+
+        while (len--) {
+            var point = {
+                x: (clients[len].MapCoordinate.x / clients[len].MapInfo.Dimension.width) * width,
+                y: (clients[len].MapCoordinate.y / clients[len].MapInfo.Dimension.length) * height
+            }
+            points.push(point);
+        }
+
+        // define heat map data structure
+        var data = {
+            max: max,
+            data: points
+        };
+
+        // set heat map data
+        heatmapInstance.setData(data);
+    }
+
+    // GET CMX DATA: get JSON data of the visitors
+    // change the proxy server IP here to match with your configuration
+    function getVisitors() {
+        $.getJSON('http://127.0.0.1:5000/cmx/api/v1.0/clients', function (data) {
+            // use visitors' data to draw heatmap
+            console.log("data = "+Object.keys(data));
+            drawHeatmap(data);
+        });
+    }
+
+    $(document).ready(function(){
+
+        var mapImage = $("#map");
+        mapImage.on('load', function() {
+
+            var expectedWidth = mapImage.width();
+            var expectedHeight =mapImage.height();
+            $("#container").width(expectedWidth);
+            $("#container").height(expectedHeight);
+            heatmapInstance = h337.create({
+                container: document.querySelector('#container')
+            });
+
+            $("#divInfo").hide();
+            setInterval(getVisitors, 5000);
+            getVisitors();
+        });
+
+        mapImage.on('error', function() {
+            console.log("error loading image");
+            $("#divInfo").text("load map failed,try again!");
+        });
+    });
+
+</script>
+
+</body>
+</html>
