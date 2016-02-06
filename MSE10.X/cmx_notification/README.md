@@ -13,7 +13,7 @@ Possible Application Scenarios:
 
 ## Dependencies
 
-1. This example was developed and tested using Python version 3.4.3. Follow the instructions to [prepare python environment](../../Prepare_Python_Environment/README.MD).
+1. This example was developed and tested using Python version 3.4.3. Follow the instructions to [prepare python environment](../../Prepare_Python_Environment/README.md).
 2. The sample code will need a Preconfigured Flask used for RESTful APIs. Use these steps to install:
 
     In Windows, please use code:
