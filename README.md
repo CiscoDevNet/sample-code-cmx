@@ -1,6 +1,6 @@
 # sample-code-cmx
 
-**Description**:  This is the repository of all sample code for Cisco CMX (connected mobility experience). Currently there are two versions of CMX MSE available - MSEV8.X and MSEV10.X. Please find the right set according to your CMX MSE version. To understand more on how CMX works, please visit [DevNet CMX](http://developer.cisco.com/site/cmx-mobility-services/).
+**Description**:  This is the repository of all sample code for Cisco CMX (connected mobile experiences). Currently there are two versions of CMX MSE available - MSEV8.X and MSEV10.X. Please find the right set according to your CMX MSE version. To understand more on how CMX works, please visit [DevNet CMX](http://developer.cisco.com/site/cmx-mobility-services/).
 
 ## What's in this repository
 
