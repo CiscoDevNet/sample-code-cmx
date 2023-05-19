@@ -1,4 +1,3 @@
-__author__ = "Yaojing Liu"
 __copyright__ = "2015 Cisco Systems, Inc."
 
 # !flask/bin/python
